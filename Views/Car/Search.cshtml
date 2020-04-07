@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h1>Search</h1>
+
+<form action="List" method="post">
+    <select name="searchType">
+        <option value="year">Year</option>
+        <option value="makeModel">Make-Model</option>
+        <option value="color">Color</option>
+    </select>
+
+    <input type="text" name="searchField" />
+    <input type="submit" class="btn btn-info" value="Search">
+</form>
+
