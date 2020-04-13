@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using KnaseAsg5Dealer.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KnaseAsg5Dealer.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private CarContext context { get; set; }
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(CarContext ctx)
         {
-            _logger = logger;
+            context = ctx;
         }
+
 
         public IActionResult Index()
         {

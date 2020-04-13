@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using KnaseAsg5Dealer.Models;
 
 namespace KnaseAsg5Dealer
 {
@@ -24,6 +26,9 @@ namespace KnaseAsg5Dealer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<CarContext>(options =>
+                options.UseSqlServer(
+                        Configuration.GetConnectionString("CarContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,37 +1,37 @@
-﻿@Model List<Car>
-    @{
-        ViewBag.Title = "Car Detail";
-    }
+﻿@{
+    ViewBag.Title = "Car Detail";
+}
 
-    <h1>Car Details</h1>
-    <table class="table table-bordered table-striped">
-        <tr>
-            <td>ID</td>
-            <td>@Model.ID</td>
-        </tr>
-        <tr>
-            <td>Year</td>
-            <td>@Model.Year</td>
-        </tr>
+<h1>Vehicle Details:</h1>
+<table class="table table-bordered table-striped">
+    <tr>
+        <td>Year</td>
+        <td>@Model.Year</td>
+    </tr>
 
-        <tr>
-            <td>Make-Model</td>
-            <td>@Model.MakeModel</td>
-        </tr>
-        <tr>
-            <td>Price</td>
-            <td>@Model.Price</td>
-        </tr>
-        <tr>
-            <td>Mileage</td>
-            <td>@Model.Mileage</td>
-        </tr>
-        <tr>
-            <td>Color</td>
-            <td>@Model.Color</td>
-        </tr>
-    </table>
-    <a asp-controller="Home" asp-action="Index"
-       class="btn btn-primary">Home</a>
-    <a asp-controller="Car" asp-action="List"
-       class="btn btn-primary">Back to List</a>
+    <tr>
+        <td>Make</td>
+        <td>@Model.Make</td>
+    </tr>
+    <tr>
+        <td>Model</td>
+        <td>@Model.Model</td>
+    </tr>
+    <tr>
+        <td>Price</td>
+        <td>@Model.Price</td>
+    </tr>
+    <tr>
+        <td>Mileage</td>
+        <td>@Model.Mileage</td>
+    </tr>
+    <tr>
+        <td>Color</td>
+        <td>@Model.Color</td>
+    </tr>
+</table>
+
+<a asp-controller="Home" asp-action="Index"
+   class="btn btn-primary">Home</a>
+<a asp-controller="Car" asp-action="List"
+   class="btn btn-primary">Back to List</a>

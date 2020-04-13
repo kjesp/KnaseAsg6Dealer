@@ -17,6 +17,19 @@ namespace KnaseAsg5Dealer.Areas.Admin.Controllers
             return View();
         }
 
+        private CarContext context { get; set; }
+
+        public CarController(CarContext ctx)
+        {
+            context = ctx;
+        }
+
+        public IActionResult List()
+        {
+            var cars = context.Cars.OrderBy(m => m.Id).ToList();
+            return View(cars);
+        }
+
 
         [Route("/Admin/add")]
         public IActionResult Add()
@@ -26,10 +39,145 @@ namespace KnaseAsg5Dealer.Areas.Admin.Controllers
 
         [Route("/admin/SubmitAdd")]
         [HttpPost]
-        public IActionResult SubmitAdd(string year, string make, string model, string price, string mileage, string color)
+        public IActionResult SubmitAdd(int year, string make, string model, string price, string mileage, string color)
         {
-            List<Car> cars = DB.add(year, make, model, price, mileage, color);
+            var car = new Car { Year = year, Make = make, Model = model, Price = price, Mileage = mileage, Color = color };
+            context.Cars.Add(car);
+            context.SaveChanges(); 
+
+            var cars = context.Cars.OrderBy(m => m.Id).ToList();
             return View("~/Views/Car/List.cshtml", cars);
+
+        }
+
+        //[Route("/car/{id?}")]
+        public IActionResult Detail(int? id)
+        {
+            var car = context.Cars.Where(m => m.Id == id).FirstOrDefault();
+            return View(car);
+        }
+
+        public IActionResult Search()
+        {
+            return View();
+        }
+
+
+        /***********************POST*******************************************************/
+
+        //[Route("/car/list")]        
+        [HttpPost]
+        public IActionResult SearchForm(string sortType, string searchType, string searchField)
+        {
+            List<Car> carsList = new List<Car>();
+
+            carsList = searchProcess(searchType, searchField);
+
+            return View("~/Views/Car/SearchResults.cshtml", carsList);
+        }
+
+        //[Route("/cars/sort/{sortType}")]
+        [HttpPost]
+        public IActionResult sortList(string sortType)
+        {
+            List<Car> carsList = new List<Car>();
+
+            carsList = sortProcess(sortType);
+
+            return View("~/Views/Car/List.cshtml", carsList);
+        }
+
+        /************************************************************/
+
+
+        public List<Car> sortProcess(string sortBy)
+        {
+            List<Car> sortedList = new List<Car>();
+            sortedList = context.Cars.ToList();
+            ViewBag.SortType = sortBy;
+
+            switch (sortBy)
+            {
+                case "yearAsc":
+                    sortedList = sortedList.OrderBy(m => m.Year).ToList();
+                    return sortedList;
+
+                case "ID":
+                    sortedList = sortedList.OrderBy(m => m.Id).ToList();
+                    return sortedList;
+
+                case "yearDesc":
+                    sortedList = sortedList.OrderByDescending(m => m.Year).ToList();
+                    return sortedList;
+
+                case "priceAsc":
+                    sortedList = sortedList.OrderBy(m => m.Price).ToList();
+                    return sortedList;
+
+                case "priceDesc":
+                    sortedList = sortedList.OrderByDescending(m => m.Price).ToList();
+                    return sortedList;
+
+                case "mileageAsc":
+                    sortedList = sortedList.OrderBy(o => o.Mileage).ToList();
+                    return sortedList;
+
+                case "mileageDesc":
+                    sortedList = sortedList.OrderByDescending(o => o.Mileage).ToList();
+                    return sortedList;
+
+                case "color":
+                    sortedList = sortedList.OrderBy(o => o.Color).ToList();
+                    return sortedList;
+
+                case "price":
+                    sortedList = sortedList.OrderBy(o => o.Price).ToList();
+                    return sortedList;
+
+                case "make":
+                    sortedList = sortedList.OrderBy(o => o.Make).ToList();
+                    return sortedList;
+
+
+                case "model":
+                    sortedList = sortedList.OrderBy(o => o.Model).ToList();
+                    return sortedList;
+            }
+
+            return sortedList;
+        }
+
+        public List<Car> searchProcess(string searchType, string searchField)
+        {
+            List<Car> searchList = new List<Car>();
+            List<Car> tempList = new List<Car>();
+
+            switch (searchType)
+            {
+                case "color":
+                    searchList = context.Cars.Where(m => m.Color == searchField).ToList();
+                    break;
+
+                case "year":
+                    int year;
+                    if (int.TryParse(searchField, out year))
+                    {
+                        searchList = context.Cars.Where(m => m.Year == year).ToList();
+                    }
+                    break;
+
+                case "makeModel":
+                    searchList = context.Cars.Where(m => m.Model == searchField).ToList();
+                    tempList = context.Cars.Where(m => m.Make == searchField).ToList();
+
+                    foreach (var item in tempList)
+                    {
+                        searchList.Add(item);
+                    }
+                    break;
+            }
+
+            return searchList;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@model Car
     @{
         ViewBag.Title = "Add Car";
     }
@@ -7,30 +7,42 @@
         <h1>Add a vehicle:</h1>
         <table class="table table-bordered table-striped">
 
-            <tr>
-                <td>Year</td>
-                <td><input type="text" name="year" /></td>
-            </tr>
+            @*<tr>
+            <td>Year</td>
+            <td><input asp-for="Year" /></td>
+        </tr>
+        <tr>
+            <td>Make</td>
+            <td><input asp-for="Make" /></td>
+        </tr>
+        <tr>
+            <td>Model</td>
+            <td><input asp-for="Model" /></td>
+        </tr>*@
 
             <tr>
+                <td>Year</td>
+                <td><input required type="number" min="1950" max="2020" name="year" /></td>
+            </tr>
+            <tr>
                 <td>Make</td>
-                <td><input type="text" name="make" /></td>
+                <td><input required type="text" name="make" /></td>
             </tr>
             <tr>
                 <td>Model</td>
-                <td><input type="text" name="model" /></td>
+                <td><input required type="text" name="model" /></td>
             </tr>
             <tr>
                 <td>Price</td>
-                <td><input type="text" name="price" /></td>
+                <td><input required type="number" min="100" max="100000" name="price" /></td>
             </tr>
             <tr>
                 <td>Mileage</td>
-                <td><input type="text" name="mileage" /></td>
+                <td><input required type="number" min="0" max="300000" name="mileage" /></td>
             </tr>
             <tr>
                 <td>Color</td>
-                <td><input type="text" name="color" /></td>
+                <td><input required type="text" name="color" /></td>
             </tr>
         </table>
         <input type="submit" class="btn btn-info" value="Add">
